@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    
+    environment{
+        name="abhay"
+    }
+    
+    parameters{
+        string(name:'person',defaultValue:"anil",description:"hiii")
+        choice(name:'city',choices:['x','y','z'])
+    }
+
+    stages {
+        stage('Test') {
+            steps {
+               sh 'echo ${BUILD_ID}'
+               sh 'echo ${name}'
+            }
+        }
+        stage('Build') {
+            environment{
+                username="ajay"
+            }
+            steps {
+                echo 'Hello Build'
+                sh 'echo "${username}"'
+            }
+        }
+        stage('Deploy-test') {
+            steps {
+                echo 'Hello deploy on test '
+                sh 'echo "${username}"'
+            }
+        }
+        
+         stage('continue-to-proceed') {
+             input{
+            message 'continue to move'
+            ok "okay"
+             }
+            steps {
+                echo 'Hello deploy on test '
+                sh 'echo "${username}"'
+            }
+        }
+        
+        
+        stage('Deploy-prod') {
+            steps {
+                echo 'Hello deploy on prod'
+            }
+        }
+        stage('parameter') {
+            steps {
+                sh 'echo ${person}'
+            }
+            
+        }  
+       
+        }
+         post {
+                always{
+                    echo "it always run"
+                }
+            }
+    }
+
